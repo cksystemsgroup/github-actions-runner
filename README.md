@@ -2,6 +2,36 @@
   <img src="docs/res/github-graph.png">
 </p>
 
+# Hardened GitHub Actions Runner
+
+This is a fork of the [upstream GitHub Actions runner][upstream] with
+minor patches applied to allow deployment as a self-hosted runner for
+public repositories. Please note that this is by no means a supported
+version and just holds modifications suitable for our environment.
+
+The following patches have been applied to this version:
+
+* Checking of a specific `RUNNER_TOKEN` secret on the job. All jobs not
+  providing a matching token will be canceled and hence prevented from
+  running on the self-hosted runner. This allows all access control
+  mechanisms already available for secrets to be used for managing
+  runner access as well.
+* Disabling of self-update by the runner. This prevents applied patches
+  from being reverted by an upstream release.
+
+Inspiration for these changes was taken from the following places:
+
+* A very [similar fork][rustfork] used by the Rust Infrastructure Team.
+* An [enhancement issue][enhissue] filed for the upstream runner.
+
+Use at your own peril, here be dragons!
+
+[upstream]: https://github.com/actions/runner
+[rustfork]: https://github.com/rust-lang/gha-runner
+[enhissue]: https://github.com/actions/runner/issues/631
+
+---
+
 # GitHub Actions Runner
 
 [![Actions Status](https://github.com/actions/runner/workflows/Runner%20CI/badge.svg)](https://github.com/actions/runner/actions)
