@@ -65,6 +65,25 @@ namespace GitHub.Runner.Worker
                 jobContext.Start();
                 jobContext.Debug($"Starting: {message.JobDisplayName}");
 
+                var expectedToken = System.Environment.GetEnvironmentVariable("RUNNER_TOKEN");
+                // Trace.Info($"HARDENING: expectedToken = {expectedToken}");
+                if (expectedToken == null) {
+                    Trace.Error("Token not configured, canceling job!");
+                    return await CompleteJobAsync(jobServer, jobContext, message, TaskResult.Canceled);
+                }
+                var secrets = jobContext.ExpressionValues["secrets"] as Pipelines.ContextData.DictionaryContextData;
+                Pipelines.ContextData.PipelineContextData rawTokenData;
+                if (!secrets.TryGetValue("RUNNER_TOKEN", out rawTokenData)) {
+                    Trace.Error("Token not sent at all, canceling job!");
+                    return await CompleteJobAsync(jobServer, jobContext, message, TaskResult.Canceled);
+                }
+                var receivedToken = rawTokenData.ToString();
+                // Trace.Info($"HARDENING: receivedToken = {receivedToken}");
+                if (receivedToken != expectedToken) {
+                    Trace.Error("Token mismatch detected, canceling job!");
+                    return await CompleteJobAsync(jobServer, jobContext, message, TaskResult.Canceled);
+                }
+
                 runnerShutdownRegistration = HostContext.RunnerShutdownToken.Register(() =>
                 {
                     // log an issue, then runner get shutdown by Ctrl-C or Ctrl-Break.
