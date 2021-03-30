@@ -127,7 +127,7 @@ namespace GitHub.Runner.Common.Tests.Worker
 
                 await _jobRunner.RunAsync(_message, _tokenSource.Token);
 
-                Assert.Equal(TaskResult.Failed, _jobEc.Result);
+                Assert.Equal(TaskResult.Canceled, _jobEc.Result);
                 _stepRunner.Verify(x => x.RunAsync(It.IsAny<IExecutionContext>()), Times.Never);
             }
         }
