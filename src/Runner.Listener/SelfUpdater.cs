@@ -136,7 +136,10 @@ namespace GitHub.Runner.Listener
             Trace.Info($"Current running runner version is {BuildConstants.RunnerPackage.Version}");
             PackageVersion runnerVersion = new PackageVersion(BuildConstants.RunnerPackage.Version);
 
-            return serverVersion.CompareTo(runnerVersion) > 0;
+            if (serverVersion.CompareTo(runnerVersion) > 0) {
+                Trace.Info("There is an update available, but we are preventing it!");
+            }
+            return false;
         }
 
         /// <summary>
