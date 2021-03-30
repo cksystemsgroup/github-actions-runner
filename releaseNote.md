@@ -1,11 +1,9 @@
 ## Features
-
+  - Apply hardening patches on top of v2.277.1 release.
 
 ## Bugs
-  - Fixed an issue where docker containers failed to initialize (#977)
 
 ## Misc
-
 
 ## Windows x64
 We recommend configuring the runner in a root folder of the Windows drive (e.g. "C:\actions-runner"). This will help avoid issues related to service identity folder permissions and long file path restrictions on Windows.
