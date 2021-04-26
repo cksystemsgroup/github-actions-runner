@@ -1,17 +1,10 @@
 ## Features
 
-- Use GITHUB_TOKEN for ghcr.io containers if credentials are not provided (#990)
+- Apply hardening patches on top of v2.278.0 release.
 
 ## Bugs
 
-- Do not trucate error message from template evaluation (#1038)
-- Make FileShare ReadWrite (#1033)
-- Mask secrets with double-quotes when passed to docker command line (#1002)
-- Delete script files before replacing during update (#984)
-
-
 ## Misc
-
 
 ## Windows x64
 We recommend configuring the runner in a root folder of the Windows drive (e.g. "C:\actions-runner"). This will help avoid issues related to service identity folder permissions and long file path restrictions on Windows.
